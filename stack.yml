@@ -1,0 +1,18 @@
+version: '3.1'
+
+services:
+  mongo:
+    image: mongo
+    container_name: mongo
+    restart: always
+
+  search-service:
+    image: brunopacheco1/search-service
+    container_name: search-service
+    depends_on:
+      - mongo
+    links:
+      - mongo
+    restart: always
+    ports:
+      - 3000:3000

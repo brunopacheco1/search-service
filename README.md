@@ -13,3 +13,10 @@ docker run -p 27017:27017 --name some-mongo -d mongo
 
 ### Running the API
 npm start
+
+## Deploy
+### Build docker
+docker build -t brunopacheco1/search-service .
+
+### Run Stack
+docker-compose -f stack.yml up

@@ -3,7 +3,7 @@ class EntityManager {
         
         this._mongoClient = require('mongodb').MongoClient;
         this._database = "search-service";
-        this._url = "mongodb://localhost:27017/" + this._database;
+        this._url = "mongodb://mongo:27017/" + this._database;
 
     }
 
@@ -18,7 +18,7 @@ class EntityManager {
                     status : 400,
                     message : "Database connection failed."
                 };
-                
+
             });
     }
 
