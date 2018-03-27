@@ -1,0 +1,23 @@
+language: node_js
+dist: trusty
+sudo: required
+node_js:
+  - "8"
+services:
+  - docker
+before_install:
+  - docker run -p 27017:27017 --rm --name mongo -d mongo
+script:
+  - npm test
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+    docker build -t "$DOCKER_USERNAME/search-service" .;
+    else
+    docker build -t "$DOCKER_USERNAME/search-service:$TRAVIS_BRANCH" .;
+    fi
+after_success:
+  - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD";
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+    docker push "$DOCKER_USERNAME/search-service:latest";
+    else
+    docker push "$DOCKER_USERNAME/search-service:$TRAVIS_BRANCH";
+    fi
