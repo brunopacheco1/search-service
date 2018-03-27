@@ -9,6 +9,8 @@ services:
   search-service:
     image: brunopacheco1/search-service
     container_name: search-service
+    environment:
+      - NODE_ENV=prod
     depends_on:
       - mongo
     links:

@@ -2,8 +2,10 @@ class EntityManager {
     constructor(app) {
         
         this._mongoClient = require('mongodb').MongoClient;
-        this._database = "search-service";
-        this._url = "mongodb://mongo:27017/" + this._database;
+        this._database = app.profile.database.name;
+        this._host = app.profile.database.host;
+        this._port = app.profile.database.port;
+        this._url = `mongodb://${this._host}:${this._port}/${this._database}`;
 
     }
 
