@@ -3,6 +3,9 @@ dist: trusty
 sudo: required
 node_js:
   - "8"
+  - "9"
+jdk:
+  - oraclejdk8
 services:
   - docker
 addons:
@@ -10,6 +13,9 @@ addons:
     organization: $SONAR_ORGANIZATION
     token:
       secure: $SONAR_TOKEN
+cache:
+  directories:
+    - $HOME/.sonar/cache
 before_install:
   - docker run -p 27017:27017 --rm --name mongo -d mongo
 script:
