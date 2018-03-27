@@ -2,11 +2,10 @@ let express = require("../util/express")();
 
 let request = require("supertest")(express);
 
-beforeEach(done => {
+before(done => {
     let tool = express.repositories.SchemaManagementTool(express);
 
     tool.clean().then(() => {
-        console.log("Cleaning done!");
         done();
     }).catch((error) => {
         console.log("Cleaning failed: ");

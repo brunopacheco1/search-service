@@ -10,8 +10,6 @@ class SchemaManagementTool {
 
         return this._entityManager.getConnection().then(connection => {
 
-            console.log("Cleaning the database...");
-
             let database = connection.db(this._entityManager.getDatabase());
 
             return database.listCollections().toArray().then(collections => {

@@ -12,8 +12,6 @@ class MachineShopRepository {
     save(machineShop) {
 
         return this._entityManager.getConnection().then(connection => {
-
-            console.log("Saving... " + machineShop.name);
             
             let database = connection.db(this._entityManager.getDatabase());
 
@@ -28,8 +26,6 @@ class MachineShopRepository {
     get(id) {
 
         return this._entityManager.getConnection().then(connection => {
-
-            console.log("Querying... " + id);
 
             let database = connection.db(this._entityManager.getDatabase());
 
@@ -46,8 +42,6 @@ class MachineShopRepository {
 
         return this._entityManager.getConnection().then(connection => {
 
-            console.log("Listing...");
-
             let database = connection.db(this._entityManager.getDatabase());
 
             let collection = database.collection(this._collectionName);
@@ -63,8 +57,6 @@ class MachineShopRepository {
 
         return this._entityManager.getConnection().then(connection => {
 
-            console.log("Updating... " + id);
-
             let database = connection.db(this._entityManager.getDatabase());
 
             let collection = database.collection(this._collectionName);
@@ -79,8 +71,6 @@ class MachineShopRepository {
     delete(id) {
 
         return this._entityManager.getConnection().then(connection => {
-
-            console.log("Deleting... " + id);
 
             let database = connection.db(this._entityManager.getDatabase());
 
