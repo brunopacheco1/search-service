@@ -19,10 +19,7 @@ after(cleanDatabase);
 
 describe("MachineShopRestTest", () => {
     machineShopTest = {
-        "location": {
-            "lat": -21.9448222,
-            "lng": -44.1939177
-        },
+        "location": { type: "Point", coordinates: [ -44.1939177, -21.9448222 ] },
         "_id": "30b55671ea603f0541a37465bf5dc65fa4b3b973",
         "name" : "Mecânica Dragrão",
         "vicinity": "348, R. Santos Dumont, 236, Bom Jardim de Minas - MG, 37310-000"
