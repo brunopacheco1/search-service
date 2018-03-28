@@ -66,7 +66,7 @@ class MachineShopRepository {
 
             let collection = database.collection(this._collectionName);
 
-            return collection.updateOne({ _id : new ObjectId(id)}, { $set : machineShop })
+            return collection.updateOne({ _id : id}, { $set : machineShop })
                 .then(connection.close());
 
         });
@@ -81,7 +81,7 @@ class MachineShopRepository {
 
             let collection = database.collection(this._collectionName);
 
-            return collection.deleteOne({ _id : new ObjectId(id)})
+            return collection.deleteOne({ _id : id})
                 .then(connection.close());
 
         });
