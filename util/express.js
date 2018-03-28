@@ -1,16 +1,17 @@
+const express = require("express");
+const consign = require("consign");
+const bodyParser = require("body-parser");
+const validator = require("express-validator");
+const ENV = process.env.NODE_ENV || "dev";
+const GOOGLE_KEY = process.env.NODE_GOOGLE_KEY || "_YOUR_KEY_";
+
 module.exports = () => {
-    let express = require("express");
-    let consign = require("consign");
-    let bodyParser = require("body-parser");
-    let validator = require("express-validator");
+
     let app = express();
 
-    const ENV = process.env.NODE_ENV || "dev";
-
     const config = require(`../env/${ENV}`);
+    
     app.profile = config;
-
-    const GOOGLE_KEY = process.env.NODE_GOOGLE_KEY || "_YOUR_KEY_";
     app.profile.googleApiKey = GOOGLE_KEY;
 
     app.use(bodyParser.urlencoded({extended : true}));
