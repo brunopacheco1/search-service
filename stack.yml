@@ -11,6 +11,7 @@ services:
     container_name: search-service
     environment:
       - NODE_ENV=prod
+      - NODE_GOOGLE_KEY=_YOUR_GOOGLE_API_
     depends_on:
       - mongo
     links:

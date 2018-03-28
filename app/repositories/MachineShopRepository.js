@@ -1,5 +1,3 @@
-let ObjectId = require('mongodb').ObjectID;
-
 class MachineShopRepository {
 
     constructor(app) {
@@ -12,13 +10,20 @@ class MachineShopRepository {
     save(machineShop) {
 
         return this._entityManager.getConnection().then(connection => {
-            
+
             let database = connection.db(this._entityManager.getDatabase());
 
             let collection = database.collection(this._collectionName);
 
-            return collection.insertOne(machineShop).then(connection.close());
+            return collection.findOne({ _id : machineShop._id})
+                .then((machineShopResult) => {
 
+                    if(machineShopResult) {
+                        return connection.close().then(() => machineShopResult)
+                    }
+
+                    return collection.insertOne(machineShop).then(connection.close()).then(() => machineShop);
+                });
         });
 
     }
@@ -31,7 +36,7 @@ class MachineShopRepository {
 
             let collection = database.collection(this._collectionName);
 
-            return collection.findOne({ _id : new ObjectId(id)})
+            return collection.findOne({ _id : id})
                 .then((machineShop) => connection.close().then(() => machineShop));
 
         });

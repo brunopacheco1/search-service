@@ -33,6 +33,16 @@ module.exports = app => {
     };
 
     let service = app.services.MachineShopService(app);
+
+    app.post("/machine-shop/crawl", (request, response) => {
+
+        service.crawl(request.body).then((googleApiResult) => {
+
+            response.json(googleApiResult);
+
+        }).catch(error => errorHandler(error, response));
+
+    });
     
     app.get("/machine-shop/:id", (request, response) => {
 

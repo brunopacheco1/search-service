@@ -10,6 +10,9 @@ module.exports = () => {
     const config = require(`../env/${ENV}`);
     app.profile = config;
 
+    const GOOGLE_KEY = process.env.NODE_GOOGLE_KEY || "_YOUR_KEY_";
+    app.profile.googleApiKey = GOOGLE_KEY;
+
     app.use(bodyParser.urlencoded({extended : true}));
     app.use(bodyParser.json());
     app.use(validator());
