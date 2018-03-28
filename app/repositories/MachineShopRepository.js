@@ -4,7 +4,7 @@ class MachineShopRepository {
 
         this._entityManager = app.repositories.EntityManager(app);
         this._collectionName = "machine-shop";
-
+        
     }
 
     save(machineShop) {
@@ -86,6 +86,30 @@ class MachineShopRepository {
 
         });
         
+    }
+
+    geoQuery(location) {
+        return this._entityManager.getConnection().then(connection => {
+
+            let database = connection.db(this._entityManager.getDatabase());
+
+            let collection = database.collection(this._collectionName);
+            
+            return collection.find({
+                location: {
+                    $near: {
+                        $geometry: {
+                            type: "Point",
+                            coordinates: [location.lng, location.lat]
+                        },
+                        $maxDistance: location.maxDistance,
+                        $minDistance: location.minDistance
+                    }
+                }
+            }).limit(100).toArray()
+                .then((resultList) => connection.close().then(() => resultList));
+
+        });
     }
 }
 

@@ -33,16 +33,6 @@ module.exports = app => {
     };
 
     let service = app.services.MachineShopService(app);
-
-    app.post("/machine-shop/crawl", (request, response) => {
-
-        service.crawl(request.body).then((googleApiResult) => {
-
-            response.json(googleApiResult);
-
-        }).catch(error => errorHandler(error, response));
-
-    });
     
     app.get("/machine-shop/:id", (request, response) => {
 
@@ -117,6 +107,28 @@ module.exports = app => {
             response.json({
                 response : "Machine shop deleted!"
             });
+
+        }).catch(error => errorHandler(error, response));
+
+    });
+
+    
+
+    app.post("/machine-shop/crawl", (request, response) => {
+
+        service.crawl(request.body).then((googleApiResult) => {
+
+            response.json(googleApiResult);
+
+        }).catch(error => errorHandler(error, response));
+
+    });
+    
+    app.post("/machine-shop/nearby", (request, response) => {
+
+        service.geoQuery(request.body).then(resultList => {
+
+            response.json(resultList);
 
         }).catch(error => errorHandler(error, response));
 
