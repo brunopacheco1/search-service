@@ -111,10 +111,7 @@ class MachineShopRepository {
                 name : new RegExp(request.query),
                 location: {
                     $near: {
-                        $geometry: {
-                            type: "Point",
-                            coordinates: [request.lng, request.lat]
-                        },
+                        $geometry: request.location,
                         $maxDistance: request.maxDistance,
                         $minDistance: request.minDistance
                     }

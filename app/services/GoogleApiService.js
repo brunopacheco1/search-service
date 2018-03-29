@@ -13,6 +13,9 @@ class GoogleApiService {
     }
 
     listMachineShops(query, previousList) {
+        query.language = "pt-BR";
+        query.type = "car_repair";
+    
         return this.googleMapsClient.places(query).asPromise().then(googleResponse => {
             
             const response = googleResponse.json;

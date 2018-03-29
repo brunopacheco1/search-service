@@ -19,6 +19,7 @@ module.exports = () => {
     app.use(validator());
 
     consign({cwd: "app"})
+        .include("model")
         .include("repositories")
         .include("services")
         .include("api")

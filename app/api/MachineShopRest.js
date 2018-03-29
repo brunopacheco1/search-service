@@ -1,3 +1,5 @@
+const { checkSchema } = require('express-validator/check');
+
 module.exports = app => {
     let errorHandler = (error, response) => {
 
@@ -15,24 +17,25 @@ module.exports = app => {
         
     };   
 
-    let validateRequest = request => {
-
-        request.assert("name", "Name is a mandatory field.").notEmpty();
+    let validateRequest = (request, response, callback) => {
 
         let errors = request.validationErrors();
 
         if(errors) {
             let messages = errors.map(error => error.msg);
 
-            return {
-                status : 400,
-                message : messages
-            };
+            response.status(400).json({
+                error : messages
+            });
+        } else {
+            callback();
         }
-
     };
 
-    let service = app.services.MachineShopService(app);
+    const service = app.services.MachineShopService(app);
+    const searchModel = app.model.Search;
+    const crawlingModel = app.model.Crawling;
+    const machineShopModel = app.model.MachineShop;
     
     app.get("/machine-shop/:id", (request, response) => {
 
@@ -54,51 +57,33 @@ module.exports = app => {
 
     });
 
-    app.post("/machine-shop", (request, response) => {
+    app.post("/machine-shop", checkSchema(machineShopModel), 
+        (request, response) => validateRequest(request, response, () => {
 
-        let validation = validateRequest(request);
+            service.save(request.body).then(() => {
 
-        if(validation) {
+                response.json({
+                    response : "Machine shop saved!"
+                });
 
-            response.status(validation.status).json({
-                error : validation.message
-            });
+            }).catch(error => errorHandler(error, response));
 
-            return;
-        }
+        })
+    );
 
-        service.save(request.body).then(() => {
+    app.put("/machine-shop/:id", checkSchema(machineShopModel), 
+        (request, response) => validateRequest(request, response, () => {
 
-            response.json({
-                response : "Machine shop saved!"
-            });
+            service.update(request.params.id, request.body).then(() => {
 
-        }).catch(error => errorHandler(error, response));
+                response.json({
+                    response : "Machine shop updated!"
+                });
 
-    });
+            }).catch(error => errorHandler(error, response));
 
-    app.put("/machine-shop/:id", (request, response) => {
-
-        let validation = validateRequest(request);
-
-        if(validation) {
-
-            response.status(validation.status).json({
-                error : validation.message
-            });
-
-            return;
-        }
-
-        service.update(request.params.id, request.body).then(() => {
-
-            response.json({
-                response : "Machine shop updated!"
-            });
-
-        }).catch(error => errorHandler(error, response));
-
-    });
+        })
+    );
 
     app.delete("/machine-shop/:id", (request, response) => {
 
@@ -114,23 +99,27 @@ module.exports = app => {
 
     
 
-    app.post("/machine-shop/crawl", (request, response) => {
+    app.post("/machine-shop/crawl", checkSchema(crawlingModel), 
+        (request, response) => validateRequest(request, response, () => {
 
-        service.crawl(request.body).then((googleApiResult) => {
+            service.crawl(request.body).then((googleApiResult) => {
 
-            response.json(googleApiResult);
+                response.json(googleApiResult);
 
-        }).catch(error => errorHandler(error, response));
+            }).catch(error => errorHandler(error, response));
 
-    });
+        })
+    );
     
-    app.post("/machine-shop/search", (request, response) => {
+    app.post("/machine-shop/search", checkSchema(searchModel), 
+        (request, response) => validateRequest(request, response, () => {
+        
+            service.search(request.body).then(resultList => {
 
-        service.search(request.body).then(resultList => {
+                response.json(resultList);
 
-            response.json(resultList);
+            }).catch(error => errorHandler(error, response));
 
-        }).catch(error => errorHandler(error, response));
-
-    });
+        })
+    );
 }
