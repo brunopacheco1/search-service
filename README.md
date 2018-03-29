@@ -18,3 +18,10 @@ docker build -t brunopacheco1/search-service .
 
 ## Run Stack
 docker-compose -f stack.yml up
+
+## Creating Collection and Index
+docker exec -it mongo mongo search-service|-dev
+
+db.createCollection("machine-shop");
+
+db["machine-shop"].createIndex({location : "2dsphere"});

@@ -8,8 +8,8 @@ class MachineShopService {
         return this._machineShopRepository.get(id);
     }
 
-    geoQuery(location) {
-        return this._machineShopRepository.geoQuery(location);
+    search(query) {
+        return this._machineShopRepository.search(query);
     }
 
     list() {

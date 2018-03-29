@@ -124,9 +124,9 @@ module.exports = app => {
 
     });
     
-    app.post("/machine-shop/nearby", (request, response) => {
+    app.post("/machine-shop/search", (request, response) => {
 
-        service.geoQuery(request.body).then(resultList => {
+        service.search(request.body).then(resultList => {
 
             response.json(resultList);
 
